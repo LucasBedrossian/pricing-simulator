@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<!-- saved from url=(0238)file:///Users/lucasbedrossian/Library/Application%20Support/Claude/local-agent-mode-sessions/61bcc0ee-a409-4f9e-8b67-a15d6a44bb99/9edb841e-8d9f-4243-9068-810fa2742215/local_cb2a1359-3158-426e-9dcf-634e02df2071/outputs/pricing_chatbot.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Simulator — DataVenture</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161a22;
+    --surface2: #1e2330;
+    --surface3: #252b3a;
+    --border: #2a2f3e;
+    --accent: #4f8ef7;
+    --accent2: #38d9a9;
+    --warn: #f7b84f;
+    --muted: #6b7280;
+    --text: #e8eaf0;
+    --text2: #a0a8b8;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), #7c5cf7);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; color: white;
+  }
+  .logo-text h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+  .logo-text p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .badge {
+    background: rgba(79,142,247,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* LAYOUT */
+  .page { max-width: 1300px; margin: 0 auto; }
+  .layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .card + .card { margin-top: 14px; }
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  /* FIELDS */
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .field select, .field input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    padding: 9px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field select { cursor: pointer; }
+  .field select:focus, .field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,0.1); }
+
+  /* LEVER PILLS */
+  .lever-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lever-pill {
+    padding: 7px 13px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .lever-pill:hover { border-color: var(--accent); color: var(--text); }
+  .lever-pill.active {
+    background: rgba(79,142,247,0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* COUNTRY MULTI-SELECT */
+  .country-search-wrap { position: relative; margin-bottom: 8px; }
+  .country-search {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    padding: 9px 12px 9px 32px;
+    font-size: 13px;
+    outline: none;
+  }
+  .country-search:focus { border-color: var(--accent); }
+  .country-search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  .country-dropdown {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+  .country-dropdown.open { display: block; }
+  .country-group-label {
+    padding: 6px 12px 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface3);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+  }
+  .country-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    transition: background 0.1s;
+  }
+  .country-option:hover { background: var(--surface3); }
+  .country-option.selected { color: var(--accent2); }
+  .country-check { width: 14px; height: 14px; color: var(--accent2); flex-shrink: 0; }
+
+  .selected-countries { display: flex; flex-wrap: wrap; gap: 6px; min-height: 28px; }
+  .country-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(56,217,169,0.1);
+    border: 1px solid rgba(56,217,169,0.25);
+    border-radius: 20px;
+    padding: 3px 10px 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent2);
+    cursor: pointer;
+  }
+  .country-tag-remove { color: var(--muted); font-size: 14px; line-height: 1; }
+  .country-tag-remove:hover { color: #f87171; }
+  .no-countries { font-size: 12px; color: var(--muted); padding: 4px 0; }
+
+  /* INLINE INPUTS */
+  .inline-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+  .inline-field:last-child { margin-bottom: 0; }
+  .inline-field label { font-size: 12px; font-weight: 600; color: var(--text2); }
+  .inline-field .inline-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .inline-field input {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: right;
+    outline: none;
+    width: 90px;
+  }
+  .inline-field input.accent { color: var(--accent); }
+  .inline-field input.accent2 { color: var(--accent2); }
+  .inline-field .unit { font-size: 13px; color: var(--muted); margin-left: 3px; font-weight: 600; }
+
+  /* BASE FRANCE REFERENCE */
+  .fr-ref-card {
+    background: var(--surface);
+    border: 1px solid rgba(79,142,247,0.25);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .fr-ref-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: rgba(79,142,247,0.07);
+    border-bottom: 1px solid rgba(79,142,247,0.15);
+  }
+  .fr-ref-flag { font-size: 16px; }
+  .fr-ref-title { font-size: 12px; font-weight: 700; color: var(--accent); }
+  .fr-ref-sub { font-size: 11px; color: var(--muted); margin-left: 4px; }
+  .fr-ref-levier-list { padding: 4px 0; }
+  .fr-ref-levier {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 9px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    flex-wrap: wrap;
+  }
+  .fr-ref-levier:last-child { border-bottom: none; }
+  .fr-ref-levier-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text2);
+    min-width: 160px;
+  }
+  .fr-ref-prices { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .fr-ref-price { font-size: 12px; color: var(--muted); }
+  .fr-ref-price strong { font-weight: 700; }
+  .fr-ref-price.buy strong { color: var(--accent); }
+  .fr-ref-price.sell strong { color: var(--accent2); }
+  .fr-ref-sep { color: var(--border); font-size: 12px; }
+
+  /* RECAP TEXT CARDS */
+  .recap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); }
+  .recap-card { background: var(--surface); padding: 14px 18px; }
+  .recap-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .recap-country { font-size: 14px; font-weight: 700; }
+  .recap-zone { font-size: 11px; color: var(--muted); }
+  .recap-coeff { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: auto; }
+  .recap-coeff.coeff-up { background: rgba(247,184,79,0.12); color: var(--warn); }
+  .recap-coeff.coeff-down { background: rgba(56,217,169,0.12); color: var(--accent2); }
+  .recap-line { display: flex; gap: 10px; font-size: 12px; margin-bottom: 5px; align-items: baseline; flex-wrap: wrap; }
+  .recap-line:last-child { margin-bottom: 0; }
+  .recap-key { color: var(--muted); font-size: 11px; min-width: 110px; flex-shrink: 0; }
+  .recap-val { color: var(--text2); line-height: 1.6; }
+  .recap-dim { color: var(--muted); font-size: 11px; }
+  .rt-buy  { color: var(--accent); font-weight: 600; }
+  .rt-sell { color: var(--accent2); font-weight: 600; }
+  .rt-cpv  { color: #c084fc; font-weight: 700; }
+  .recap-total {
+    padding: 12px 18px;
+    font-size: 12px;
+    color: var(--text2);
+    border-top: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; gap: 6px 4px; align-items: center;
+    background: rgba(192,132,252,0.04);
+  }
+  .recap-total-item { white-space: nowrap; }
+  .recap-sep { color: var(--border); }
+
+  /* SAVE BUTTON */
+  .save-btn {
+    background: rgba(192,132,252,0.1);
+    border: 1px solid rgba(192,132,252,0.3);
+    color: #c084fc;
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .save-btn:hover { background: rgba(192,132,252,0.2); }
+
+  /* SAVED BRIEFS PANEL */
+  .briefs-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .briefs-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .briefs-panel-title { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .briefs-count { background: rgba(192,132,252,0.15); color: #c084fc; border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+  .briefs-toggle { color: var(--muted); font-size: 12px; }
+  .briefs-list { padding: 8px; display: none; }
+  .briefs-list.open { display: block; }
+  .brief-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .brief-item:last-child { margin-bottom: 0; }
+  .brief-item:hover { background: var(--surface2); }
+  .brief-item-info { flex: 1; min-width: 0; }
+  .brief-item-name { font-size: 13px; font-weight: 600; }
+  .brief-item-meta { font-size: 11px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brief-item-date { font-size: 10px; color: var(--muted); white-space: nowrap; }
+  .brief-item-del { color: var(--muted); font-size: 16px; padding: 2px 6px; border-radius: 4px; cursor: pointer; }
+  .brief-item-del:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+  .brief-load-btn { font-size: 11px; color: var(--accent); font-weight: 600; padding: 3px 8px; border: 1px solid rgba(79,142,247,0.25); border-radius: 4px; white-space: nowrap; }
+  .brief-load-btn:hover { background: rgba(79,142,247,0.1); }
+
+  /* SAVE MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 100; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 360px; }
+  .modal h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .modal input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); padding: 10px 12px; font-size: 14px; outline: none; margin-bottom: 16px; }
+  .modal input:focus { border-color: var(--accent); }
+  .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
+  .modal-cancel { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); border-radius: var(--radius-sm); padding: 8px 16px; font-size: 13px; cursor: pointer; }
+  .modal-save { background: var(--accent); border: none; color: white; border-radius: var(--radius-sm); padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+  /* RESULTS */
+  .results-empty {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 350px; gap: 12px;
+    color: var(--muted); text-align: center;
+  }
+  .results-empty-icon { font-size: 42px; opacity: 0.3; }
+
+  /* LEVIER RESULT BLOCK */
+  .levier-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .levier-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .levier-block-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .levier-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .levier-name { font-size: 14px; font-weight: 700; }
+  .levier-meta { font-size: 12px; color: var(--muted); margin-left: 4px; }
+  .levier-benchmarks {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .bench-pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+  .bench-pill strong { color: var(--text); }
+
+  /* TABLE */
+  .results-table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  thead th {
+    padding: 9px 12px;
+    text-align: right;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; }
+  thead th.group-buy { color: var(--accent); }
+  thead th.group-sell { color: var(--accent2); }
+  thead th.group-proj { color: var(--warn); }
+
+  tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody td {
+    padding: 10px 12px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  tbody td:first-child { text-align: left; }
+
+  .td-country { font-weight: 600; }
+  .td-zone { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .td-buy { color: var(--accent); font-weight: 600; }
+  .td-sell { color: var(--accent2); font-weight: 600; }
+  .td-proj { color: var(--warn); font-weight: 600; }
+  .td-cpv { color: #c084fc; font-weight: 700; }
+  .td-ref { font-size: 10px; color: var(--muted); }
+
+  .coeff-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+  .coeff-up { background: rgba(247,184,79,0.12); color: var(--warn); }
+  .coeff-down { background: rgba(56,217,169,0.12); color: var(--accent2); }
+  .coeff-eq { background: rgba(255,255,255,0.06); color: var(--muted); }
+
+  /* SUMMARY BAR */
+  .summary-bar {
+    display: flex;
+    gap: 20px;
+    padding: 12px 18px;
+    background: rgba(79,142,247,0.05);
+    border-top: 1px solid rgba(79,142,247,0.15);
+    flex-wrap: wrap;
+  }
+  .summary-item { display: flex; flex-direction: column; gap: 2px; }
+  .summary-item-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .summary-item-value { font-size: 14px; font-weight: 700; }
+
+  footer {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">D</div>
+    <div class="logo-text">
+      <h1>Pricing Simulator</h1>
+      <p>Display · Social · Native — Grille 2025</p>
+    </div>
+  </div>
+  <div class="badge">NET ACHAT · BASE GÉNÉRIQUE</div>
+</header>
+
+<div class="layout">
+
+  <!-- ── LEFT PANEL ── -->
+  <div>
+
+    <div class="card">
+      <div class="section-label">Paramètres campagne</div>
+
+      <div class="field">
+        <label>Secteur</label>
+        <select id="secteur">
+          <option value="">— Sélectionner —</option>
+        <option value="Alimentation / FMCG">Alimentation / FMCG</option><option value="Assurance">Assurance</option><option value="Automobile">Automobile</option><option value="Banque / Finance">Banque / Finance</option><option value="Beauté / Cosmétique">Beauté / Cosmétique</option><option value="Betting / Casino / Jeux">Betting / Casino / Jeux</option><option value="Formation / E-learning">Formation / E-learning</option><option value="Gaming / Loisirs">Gaming / Loisirs</option><option value="High-Tech / Électronique">High-Tech / Électronique</option><option value="Immobilier">Immobilier</option><option value="Luxe / Mode premium">Luxe / Mode premium</option><option value="Retail / E-commerce">Retail / E-commerce</option><option value="Santé / Pharma">Santé / Pharma</option><option value="Telecom">Telecom</option><option value="Travel / Tourisme">Travel / Tourisme</option><option value="Énergie / Utilities">Énergie / Utilities</option></select>
+      </div>
+
+      <div class="field">
+        <label>Notoriété marque</label>
+        <select id="notoriete">
+          <option value="Forte">Forte</option>
+          <option value="Moyenne" selected="">Moyenne</option>
+          <option value="Faible">Faible</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Positionnement</label>
+        <select id="positionnement">
+          <option value="Luxe">Luxe</option>
+          <option value="Premium">Premium</option>
+          <option value="Générique" selected="">Générique (Base)</option>
+          <option value="Low Cost">Low Cost</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Leviers</div>
+      <div class="lever-pills" id="lever-pills">
+        <div class="lever-pill active" data-levier="Display">Display</div>
+        <div class="lever-pill" data-levier="Meta">Meta</div>
+        <div class="lever-pill" data-levier="TikTok">TikTok</div>
+        <div class="lever-pill" data-levier="Native">Native</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Pays cibles</div>
+      <div class="country-search-wrap">
+        <span class="country-search-icon">🔍</span>
+        <input type="text" class="country-search" id="country-search" placeholder="Rechercher un pays…">
+      </div>
+      <div class="country-dropdown" id="country-dropdown"><div class="country-group-label">Europe</div><div class="country-option selected">
+        <span class="country-check">✓</span>
+        <span>Spain</span>
+        <span style="margin-left:auto;font-size:10px;color:var(--muted);">×0.85</span></div></div>
+      <div style="margin-top:10px;">
+        <div class="selected-countries" id="selected-countries"><div class="country-tag">Spain<span class="country-tag-remove" title="Retirer">×</span></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-label">Volume &amp; Marge</div>
+      <div class="inline-field">
+        <div>
+          <label>Clics — base France</label>
+          <div class="inline-sub">Volume de référence (×coef vol/pays)</div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <input type="number" id="clics" value="10000" min="0" step="500" class="accent2">
+          <span class="unit">clics</span>
+        </div>
+      </div>
+      <div class="inline-field">
+        <div>
+          <label>Marge agence</label>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <input type="number" id="marge" value="30" min="0" max="99" step="1" class="accent">
+          <span class="unit">%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div id="results-col">
+
+  <!-- SAVED BRIEFS -->
+  <div class="briefs-panel" id="briefs-panel" style="display:none;">
+    <div class="briefs-panel-header" onclick="toggleBriefs()">
+      <div class="briefs-panel-title">📁 Briefs sauvegardés <span class="briefs-count" id="briefs-count">0</span></div>
+      <span class="briefs-toggle" id="briefs-toggle">▼</span>
+    </div>
+    <div class="briefs-list" id="briefs-list"></div>
+  </div>
+
+  <div id="results"><div class="fr-ref-card">
+    <div class="fr-ref-header">
+      <span class="fr-ref-flag">🇫🇷</span>
+      <span class="fr-ref-title">Base France — référence de calcul</span>
+      <span class="fr-ref-sub">Alimentation / FMCG · Notoriété Faible · Premium · Marge 30%</span>
+    </div>
+    <div class="fr-ref-levier-list"><div class="fr-ref-levier">
+      <span class="fr-ref-levier-name">Display (Prog.)</span>
+      <div class="fr-ref-prices">
+        <span class="fr-ref-price buy">CPM <strong>2,88 €</strong></span>
+        <span class="fr-ref-sep">·</span>
+        <span class="fr-ref-price buy">CPC <strong>0,43 €</strong></span>
+        <span class="fr-ref-sep" style="opacity:.3">|</span>
+        <span class="fr-ref-price sell">CPM vente <strong>4,11 €</strong></span>
+        <span class="fr-ref-sep">·</span>
+        <span class="fr-ref-price sell">CPC vente <strong>0,62 €</strong></span>
+      </div>
+    </div></div>
+  </div>
+    <div class="levier-block">
+      <div class="levier-block-header">
+        <div class="levier-block-title">
+          <div class="levier-dot"></div>
+          <span class="levier-name">Display (Prog.)</span>
+          <span class="levier-meta">— Alimentation / FMCG</span>
+        </div>
+        <div class="levier-benchmarks">
+          <span class="bench-pill">CPM base FR <strong>2,88 €</strong></span>
+          <span class="bench-pill">CPC base FR <strong>0,43 €</strong></span>
+          <span class="bench-pill">CTR <strong>0.70%</strong></span>
+          <span class="bench-pill">CVR <strong>50.00%</strong></span>
+        </div>
+      </div>
+      <div class="results-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pays</th>
+              <th class="group-buy">CPM Achat</th>
+              <th class="group-buy">CPC Achat</th>
+              <th class="group-sell">CPM Vente</th>
+              <th class="group-sell">CPC Vente</th>
+              <th>Clics</th>
+              <th class="group-proj">Impressions</th>
+              <th class="group-proj">Visites</th>
+              <th class="group-proj">Budget Achat</th>
+              <th class="group-proj">Budget Vente</th>
+              <th style="color:#c084fc;">CPV</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+        <td><div class="td-country">Spain<span class="coeff-badge coeff-down">-15%</span></div><div class="td-zone">Europe</div></td>
+        <td class="td-buy">2,44<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-buy">0,37<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-sell">3,49<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-sell">0,52<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td style="color:var(--text2);">9 000<span class="coeff-badge coeff-down">×0.90</span></td>
+        <td class="td-proj">1 285 714</td>
+        <td class="td-proj">4 500</td>
+        <td class="td-proj">3 299<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-proj">4 713<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-cpv">1,05<span style="font-size:10px;color:var(--muted)"> €</span></td>
+      </tr></tbody>
+        </table>
+      </div>
+      
+    </div>
+    <div class="levier-block" style="border-color:rgba(192,132,252,0.3);">
+      <div class="levier-block-header" style="background:rgba(192,132,252,0.07);border-bottom-color:rgba(192,132,252,0.2);">
+        <div class="levier-block-title">
+          <div class="levier-dot" style="background:#c084fc;"></div>
+          <span class="levier-name">Récap par pays</span>
+          <span class="levier-meta">— 1 levier · 1 pay</span>
+        </div>
+        <div class="levier-benchmarks">
+          <span class="bench-pill">Achat total <strong>3 299 €</strong></span>
+          <span class="bench-pill">Vente total <strong>4 713 €</strong></span>
+          <span class="bench-pill">Marge brute <strong style="color:var(--accent2)">1 414 €</strong></span>
+          <span class="bench-pill">CPV moy. <strong style="color:#c084fc;">1,05 €</strong></span>
+        </div>
+      </div>
+      <div class="recap-grid"><div class="recap-card">
+        <div class="recap-card-head">
+          <span class="recap-country">Spain</span>
+          <span class="recap-zone">Europe</span>
+          <span class="recap-coeff coeff-down">-15% vs FR</span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">Clics</span>
+          <span class="recap-val">9 000 <span class="recap-dim">×0.90 vol</span></span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">CPC achat → vente</span>
+          <span class="recap-val">Display <span class="rt-buy">0,37 €</span> → <span class="rt-sell">0,52 €</span> &nbsp;·&nbsp; <strong>Moy. D+N <span class="rt-buy">0,37 €</span> → <span class="rt-sell">0,52 €</span></strong></span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">Budget</span>
+          <span class="recap-val"><span class="rt-buy">3 299 €</span> achat → <span class="rt-sell">4 713 €</span> vente</span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">Volume</span>
+          <span class="recap-val">1 285 714 impr. &nbsp;·&nbsp; 4 500 visites &nbsp;·&nbsp; CPV <span class="rt-cpv">1,05 €</span></span>
+        </div>
+      </div></div>
+      <div class="recap-total">
+        <span class="recap-total-item">Total clics <strong>9 000</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Impressions <strong>1 285 714</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Visites <strong>4 500</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Budget achat <strong style="color:var(--accent)">3 299 €</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Budget vente <strong style="color:var(--accent2)">4 713 €</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Marge brute <strong style="color:var(--accent2)">1 414 €</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">CPV moyen <strong style="color:#c084fc;">1,05 €</strong></span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+      <button class="save-btn" onclick="saveBrief()">💾 Sauvegarder ce brief</button>
+    </div></div>
+
+  </div><!-- /results-col -->
+</div>
+
+<footer>DataVenture · Grille Tarifaire 2025 · BASE GÉNÉRIQUE — Coefficients Notoriété &amp; Positionnement à calibrer · Volume pays = Clics France × Coeff Volume</footer>
+
+</div><!-- /page -->
+
+<script>
+// ──────────────────────────── DATA ────────────────────────────────────────────
+
+const GRILLE = {
+  "Automobile":              { Display:[3.5,0.5],   Meta:[10,1.3],   TikTok:[7.5,1.0],   Native:[2.2,0.3]  },
+  "Banque / Finance":        { Display:[4.5,0.65],  Meta:[9,1.2],    TikTok:[7,0.95],    Native:[2.5,0.35] },
+  "Formation / E-learning":  { Display:[3.2,0.48],  Meta:[8,1.05],   TikTok:[6.5,0.85],  Native:[2,0.28]   },
+  "Retail / E-commerce":     { Display:[2.5,0.35],  Meta:[8,0.9],    TikTok:[6.5,0.75],  Native:[1.8,0.22] },
+  "Assurance":               { Display:[5,0.7],     Meta:[10,1.35],  TikTok:[7.5,1.0],   Native:[2.8,0.38] },
+  "Betting / Casino / Jeux": { Display:[5.5,0.75],  Meta:[11,1.4],   TikTok:[9,1.2],     Native:[3,0.42]   },
+  "Beauté / Cosmétique":     { Display:[3.8,0.55],  Meta:[9.5,1.25], TikTok:[8,1.05],    Native:[2.2,0.3]  },
+  "Énergie / Utilities":     { Display:[3,0.42],    Meta:[7,0.88],   TikTok:[5.5,0.72],  Native:[1.9,0.25] },
+  "Gaming / Loisirs":        { Display:[1.8,0.25],  Meta:[5,0.6],    TikTok:[4,0.5],     Native:[1.2,0.16] },
+  "Immobilier":              { Display:[4,0.58],    Meta:[9,1.15],   TikTok:[7,0.9],     Native:[2.5,0.33] },
+  "Luxe / Mode premium":     { Display:[8,1.2],     Meta:[15,2.2],   TikTok:[12,1.8],    Native:[3.5,0.55] },
+  "Santé / Pharma":          { Display:[5.5,0.8],   Meta:[8,1.0],    TikTok:[6,0.8],     Native:[2.5,0.35] },
+  "Telecom":                 { Display:[3,0.42],    Meta:[7,0.85],   TikTok:[5.5,0.7],   Native:[2,0.26]   },
+  "Travel / Tourisme":       { Display:[3,0.45],    Meta:[9,1.1],    TikTok:[7,0.9],     Native:[2,0.26]   },
+  "High-Tech / Électronique":{ Display:[3,0.45],    Meta:[8,1.0],    TikTok:[6.5,0.8],   Native:[2,0.28]   },
+  "Alimentation / FMCG":     { Display:[2,0.3],     Meta:[7,0.85],   TikTok:[5.5,0.7],   Native:[1.5,0.2]  },
+};
+
+const COEFF_NOT = {
+  // Forte noto → prix à la baisse (meilleur CTR natif, moins besoin de surenchérir)
+  // Faible noto → prix à la hausse (doit surenchérir pour obtenir visibilité)
+  "Forte":   { Display:0.80, Meta:0.82, TikTok:0.85, Native:0.82 },
+  "Moyenne": { Display:1.00, Meta:1.00, TikTok:1.00, Native:1.00 },
+  "Faible":  { Display:1.25, Meta:1.20, TikTok:1.15, Native:1.20 },
+};
+const COEFF_POS = {
+  "Luxe":      { Display:1.30, Social:1.25, Native:1.20 },
+  "Premium":   { Display:1.15, Social:1.12, Native:1.10 },
+  "Générique": { Display:1.00, Social:1.00, Native:1.00 },
+  "Low Cost":  { Display:0.75, Social:0.80, Native:0.80 },
+};
+const BENCHMARKS = {
+  "Display": { ctr:0.0070, cvr:0.50, label:"Display (Prog.)" },
+  "Meta":    { ctr:0.0080, cvr:0.50, label:"Social — Meta" },
+  "TikTok":  { ctr:0.0080, cvr:0.50, label:"Social — TikTok" },
+  "Native":  { ctr:0.0150, cvr:0.50, label:"Native (Tab./Out.)" },
+};
+
+const PAYS_DATA = [
+  { zone:"Europe",             name:"France",              cp:1.00, cv:1.00 },
+  { zone:"Europe",             name:"Germany",             cp:1.05, cv:1.00 },
+  { zone:"Europe",             name:"Netherlands",         cp:1.00, cv:0.80 },
+  { zone:"Europe",             name:"Belgium",             cp:0.95, cv:0.85 },
+  { zone:"Europe",             name:"Luxembourg",          cp:1.10, cv:0.20 },
+  { zone:"Europe",             name:"Austria",             cp:1.00, cv:0.60 },
+  { zone:"Europe",             name:"Switzerland",         cp:1.35, cv:0.60 },
+  { zone:"Europe",             name:"UK",                  cp:1.15, cv:1.20 },
+  { zone:"Europe",             name:"Ireland",             cp:1.10, cv:0.45 },
+  { zone:"Europe",             name:"Denmark",             cp:1.15, cv:0.50 },
+  { zone:"Europe",             name:"Sweden",              cp:1.15, cv:0.70 },
+  { zone:"Europe",             name:"Finland",             cp:1.10, cv:0.50 },
+  { zone:"Europe",             name:"Italy",               cp:1.00, cv:1.05 },
+  { zone:"Europe",             name:"Spain",               cp:0.85, cv:0.90 },
+  { zone:"Europe",             name:"Portugal",            cp:0.80, cv:0.50 },
+  { zone:"Europe",             name:"Greece",              cp:0.75, cv:0.45 },
+  { zone:"Europe",             name:"Malta",               cp:0.90, cv:0.10 },
+  { zone:"Europe",             name:"Cyprus",              cp:0.85, cv:0.15 },
+  { zone:"Europe",             name:"Poland",              cp:0.75, cv:0.95 },
+  { zone:"Europe",             name:"Czech Republic",      cp:0.80, cv:0.55 },
+  { zone:"Europe",             name:"Slovakia",            cp:0.70, cv:0.40 },
+  { zone:"Europe",             name:"Hungary",             cp:0.75, cv:0.55 },
+  { zone:"Europe",             name:"Romania",             cp:0.65, cv:0.70 },
+  { zone:"Europe",             name:"Bulgaria",            cp:0.60, cv:0.45 },
+  { zone:"Europe",             name:"Croatia",             cp:0.70, cv:0.35 },
+  { zone:"Europe",             name:"Slovenia",            cp:0.80, cv:0.25 },
+  { zone:"Europe",             name:"Estonia",             cp:0.85, cv:0.20 },
+  { zone:"Europe",             name:"Latvia",              cp:0.75, cv:0.20 },
+  { zone:"Europe",             name:"Lithuania",           cp:0.75, cv:0.25 },
+  { zone:"Europe",             name:"Serbia",              cp:0.60, cv:0.50 },
+  { zone:"North America",      name:"USA",                 cp:1.30, cv:1.90 },
+  { zone:"North America",      name:"Canada",              cp:1.15, cv:0.90 },
+  { zone:"Latin America",      name:"Brazil",              cp:0.70, cv:1.40 },
+  { zone:"Latin America",      name:"Colombia",            cp:0.65, cv:0.90 },
+  { zone:"Latin America",      name:"Chile",               cp:0.75, cv:0.50 },
+  { zone:"Latin America",      name:"Peru",                cp:0.65, cv:0.60 },
+  { zone:"Latin America",      name:"Venezuela",           cp:0.55, cv:0.30 },
+  { zone:"Africa",             name:"Morocco",             cp:0.65, cv:0.70 },
+  { zone:"Africa",             name:"Tunisia",             cp:0.60, cv:0.50 },
+  { zone:"Africa",             name:"Egypt",               cp:0.60, cv:1.10 },
+  { zone:"Sub-Saharan Africa", name:"South Africa",        cp:0.75, cv:0.50 },
+  { zone:"Sub-Saharan Africa", name:"Kenya",               cp:0.65, cv:0.60 },
+  { zone:"Sub-Saharan Africa", name:"Nigeria",             cp:0.65, cv:1.00 },
+  { zone:"Sub-Saharan Africa", name:"West Africa (Other)", cp:0.60, cv:0.40 },
+  { zone:"Sub-Saharan Africa", name:"Central Africa",      cp:0.55, cv:0.30 },
+  { zone:"Middle East",        name:"UAE",                 cp:1.30, cv:0.60 },
+  { zone:"Middle East",        name:"Saudi Arabia",        cp:1.20, cv:0.90 },
+  { zone:"Middle East",        name:"Qatar",               cp:1.25, cv:0.25 },
+  { zone:"Middle East",        name:"Kuwait",              cp:1.15, cv:0.30 },
+  { zone:"Middle East",        name:"Bahrain",             cp:1.10, cv:0.20 },
+  { zone:"Middle East",        name:"Oman",                cp:0.90, cv:0.35 },
+  { zone:"Oceania",            name:"Australia",           cp:1.10, cv:0.70 },
+  { zone:"Oceania",            name:"New Zealand",         cp:1.05, cv:0.30 },
+];
+const PAYS_MAP = {};
+PAYS_DATA.forEach(p => PAYS_MAP[p.name] = p);
+
+// ──────────────────────────── STATE ───────────────────────────────────────────
+let selectedLeviers = new Set(['Display','Meta','Native']);
+let selectedPays    = new Set();
+
+// ──────────────────────────── FORMAT ──────────────────────────────────────────
+const fmt    = (n,d=2) => n == null || isNaN(n) ? '—' : n.toLocaleString('fr-FR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmtInt = n => (!n && n!==0) ? '—' : Math.round(n).toLocaleString('fr-FR');
+const fmtPct = n => (n*100).toFixed(2)+'%';
+const posKey = l => l==='Display'?'Display':l==='Native'?'Native':'Social';
+
+// ──────────────────────────── INIT ────────────────────────────────────────────
+function initSecteur() {
+  const sel = document.getElementById('secteur');
+  Object.keys(GRILLE).sort().forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+}
+
+function buildCountryDropdown(filter='') {
+  const dd = document.getElementById('country-dropdown');
+  dd.innerHTML = '';
+  const groups = {};
+  PAYS_DATA.forEach(p => {
+    if (filter && !p.name.toLowerCase().includes(filter.toLowerCase())) return;
+    if (!groups[p.zone]) groups[p.zone] = [];
+    groups[p.zone].push(p);
+  });
+  let hasAny = false;
+  Object.entries(groups).forEach(([zone, pays]) => {
+    const gl = document.createElement('div');
+    gl.className = 'country-group-label';
+    gl.textContent = zone;
+    dd.appendChild(gl);
+    pays.forEach(p => {
+      hasAny = true;
+      const row = document.createElement('div');
+      row.className = 'country-option' + (selectedPays.has(p.name) ? ' selected' : '');
+      row.innerHTML = `
+        <span class="country-check">${selectedPays.has(p.name) ? '✓' : ''}</span>
+        <span>${p.name}</span>
+        <span style="margin-left:auto;font-size:10px;color:var(--muted);">×${p.cp.toFixed(2)}</span>`;
+      row.addEventListener('click', () => toggleCountry(p.name));
+      dd.appendChild(row);
+    });
+  });
+  if (!hasAny) {
+    dd.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--muted);">Aucun résultat</div>';
+  }
+}
+
+function toggleCountry(name) {
+  if (selectedPays.has(name)) selectedPays.delete(name);
+  else selectedPays.add(name);
+  buildCountryDropdown(document.getElementById('country-search').value);
+  renderSelectedCountries();
+  calculate();
+}
+
+function renderSelectedCountries() {
+  const wrap = document.getElementById('selected-countries');
+  if (selectedPays.size === 0) {
+    wrap.innerHTML = '<span class="no-countries">Aucun pays sélectionné</span>';
+    return;
+  }
+  wrap.innerHTML = '';
+  [...selectedPays].forEach(name => {
+    const tag = document.createElement('div');
+    tag.className = 'country-tag';
+    tag.innerHTML = `${name}<span class="country-tag-remove" title="Retirer">×</span>`;
+    tag.querySelector('.country-tag-remove').addEventListener('click', () => toggleCountry(name));
+    wrap.appendChild(tag);
+  });
+}
+
+// ──────────────────────────── CALCULATE ───────────────────────────────────────
+function calculate() {
+  const secteur       = document.getElementById('secteur').value;
+  const notoriete     = document.getElementById('notoriete').value;
+  const positionnement= document.getElementById('positionnement').value;
+  const clicsFR       = parseFloat(document.getElementById('clics').value) || 0;
+  const marge         = parseFloat(document.getElementById('marge').value) / 100;
+  const div           = 1 - marge;
+
+  const results = document.getElementById('results');
+
+  if (!secteur || selectedLeviers.size === 0 || selectedPays.size === 0) {
+    document.getElementById('results').innerHTML = `
+    <div class="card results-empty">
+      <div class="results-empty-icon">⚡</div>
+      <p style="font-size:13px;line-height:1.7;color:var(--text2);">
+        Sélectionnez un secteur,<br>au moins un levier et un pays.
+      </p>
+    </div>`;
+    return;
+  }
+
+  // ── BASE FRANCE REFERENCE BAR ──
+  const frItems = [...selectedLeviers].map(levier => {
+    const [cpm_base, cpc_base] = GRILLE[secteur][levier];
+    const cn       = COEFF_NOT[notoriete][levier];
+    const cp_coeff = COEFF_POS[positionnement][posKey(levier)];
+    const cpm_net  = cpm_base * cn * cp_coeff;
+    const cpc_net  = cpc_base * cn * cp_coeff;
+    const cpm_pdv  = cpm_net / div;
+    const cpc_pdv  = cpc_net / div;
+    return `<div class="fr-ref-levier">
+      <span class="fr-ref-levier-name">${BENCHMARKS[levier].label}</span>
+      <div class="fr-ref-prices">
+        <span class="fr-ref-price buy">CPM <strong>${fmt(cpm_net)} €</strong></span>
+        <span class="fr-ref-sep">·</span>
+        <span class="fr-ref-price buy">CPC <strong>${fmt(cpc_net)} €</strong></span>
+        <span class="fr-ref-sep" style="opacity:.3">|</span>
+        <span class="fr-ref-price sell">CPM vente <strong>${fmt(cpm_pdv)} €</strong></span>
+        <span class="fr-ref-sep">·</span>
+        <span class="fr-ref-price sell">CPC vente <strong>${fmt(cpc_pdv)} €</strong></span>
+      </div>
+    </div>`;
+  }).join('');
+
+  let html = `<div class="fr-ref-card">
+    <div class="fr-ref-header">
+      <span class="fr-ref-flag">🇫🇷</span>
+      <span class="fr-ref-title">Base France — référence de calcul</span>
+      <span class="fr-ref-sub">${secteur} · Notoriété ${notoriete} · ${positionnement} · Marge ${Math.round(marge*100)}%</span>
+    </div>
+    <div class="fr-ref-levier-list">${frItems}</div>
+  </div>`;
+
+  [...selectedLeviers].forEach(levier => {
+    const bm = BENCHMARKS[levier];
+    const [cpm_base, cpc_base] = GRILLE[secteur][levier];
+    const cn = COEFF_NOT[notoriete][levier];
+    const cp_key = posKey(levier);
+    const cp_coeff = COEFF_POS[positionnement][cp_key];
+
+    const cpm_net_fr = cpm_base * cn * cp_coeff;
+    const cpc_net_fr = cpc_base * cn * cp_coeff;
+    const cpm_pdv_fr = cpm_net_fr / div;
+    const cpc_pdv_fr = cpc_net_fr / div;
+
+    // Total accumulators
+    let tot_budget_achat = 0, tot_budget_vente = 0, tot_impressions = 0, tot_visites = 0;
+
+    let rows = '';
+    [...selectedPays].forEach(paysName => {
+      const p = PAYS_MAP[paysName];
+      const cpm_net = cpm_net_fr * p.cp;
+      const cpc_net = cpc_net_fr * p.cp;
+      const cpm_pdv = cpm_net / div;
+      const cpc_pdv = cpc_net / div;
+
+      const clics_pays   = clicsFR * p.cv;
+      const impressions  = clics_pays > 0 ? clics_pays / bm.ctr : 0;
+      const visites      = clics_pays * bm.cvr;
+      const budget_achat = clics_pays * cpc_net;
+      const budget_vente = clics_pays * cpc_pdv;
+      const cpv          = visites > 0 ? budget_vente / visites : 0;
+
+      tot_budget_achat  += budget_achat;
+      tot_budget_vente  += budget_vente;
+      tot_impressions   += impressions;
+      tot_visites       += visites;
+
+      const pctFR = p.cp >= 1
+        ? `<span class="coeff-badge coeff-up">+${Math.round((p.cp-1)*100)}%</span>`
+        : `<span class="coeff-badge coeff-down">${Math.round((p.cp-1)*100)}%</span>`;
+      const volBadge = p.cv === 1
+        ? `<span class="coeff-badge coeff-eq">×1</span>`
+        : `<span class="coeff-badge ${p.cv>1?'coeff-up':'coeff-down'}">×${p.cv.toFixed(2)}</span>`;
+
+      rows += `<tr>
+        <td><div class="td-country">${paysName}${pctFR}</div><div class="td-zone">${p.zone}</div></td>
+        <td class="td-buy">${fmt(cpm_net)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-buy">${fmt(cpc_net)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-sell">${fmt(cpm_pdv)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-sell">${fmt(cpc_pdv)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td style="color:var(--text2);">${fmtInt(clics_pays)}${volBadge}</td>
+        <td class="td-proj">${fmtInt(impressions)}</td>
+        <td class="td-proj">${fmtInt(visites)}</td>
+        <td class="td-proj">${fmtInt(budget_achat)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-proj">${fmtInt(budget_vente)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+        <td class="td-cpv">${fmt(cpv)}<span style="font-size:10px;color:var(--muted)"> €</span></td>
+      </tr>`;
+    });
+
+    // Totals row (only if >1 pays)
+    let totalRow = '';
+    if (selectedPays.size > 1) {
+      const tot_visites_nz = tot_visites > 0 ? tot_visites : 1;
+      const tot_cpv = tot_budget_vente / tot_visites_nz;
+      totalRow = `<tr style="background:rgba(79,142,247,0.05);font-weight:700;border-top:2px solid var(--border)">
+        <td><span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;">TOTAL ${selectedPays.size} pays</span></td>
+        <td></td><td></td><td></td><td></td>
+        <td style="color:var(--text2);">${fmtInt(clicsFR * [...selectedPays].reduce((s,n)=>s+PAYS_MAP[n].cv,0))}</td>
+        <td class="td-proj">${fmtInt(tot_impressions)}</td>
+        <td class="td-proj">${fmtInt(tot_visites)}</td>
+        <td class="td-proj">${fmtInt(tot_budget_achat)} €</td>
+        <td class="td-proj">${fmtInt(tot_budget_vente)} €</td>
+        <td class="td-cpv">${fmt(tot_cpv)} €</td>
+      </tr>`;
+    }
+
+    html += `
+    <div class="levier-block">
+      <div class="levier-block-header">
+        <div class="levier-block-title">
+          <div class="levier-dot"></div>
+          <span class="levier-name">${bm.label}</span>
+          <span class="levier-meta">— ${secteur}</span>
+        </div>
+        <div class="levier-benchmarks">
+          <span class="bench-pill">CPM base FR <strong>${fmt(cpm_net_fr)} €</strong></span>
+          <span class="bench-pill">CPC base FR <strong>${fmt(cpc_net_fr)} €</strong></span>
+          <span class="bench-pill">CTR <strong>${fmtPct(bm.ctr)}</strong></span>
+          <span class="bench-pill">CVR <strong>${fmtPct(bm.cvr)}</strong></span>
+        </div>
+      </div>
+      <div class="results-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pays</th>
+              <th class="group-buy">CPM Achat</th>
+              <th class="group-buy">CPC Achat</th>
+              <th class="group-sell">CPM Vente</th>
+              <th class="group-sell">CPC Vente</th>
+              <th>Clics</th>
+              <th class="group-proj">Impressions</th>
+              <th class="group-proj">Visites</th>
+              <th class="group-proj">Budget Achat</th>
+              <th class="group-proj">Budget Vente</th>
+              <th style="color:#c084fc;">CPV</th>
+            </tr>
+          </thead>
+          <tbody>${rows}${totalRow}</tbody>
+        </table>
+      </div>
+      ${selectedPays.size > 1 ? `<div class="summary-bar">
+        <div class="summary-item"><span class="summary-item-label">Marge brute</span><span class="summary-item-value" style="color:var(--accent2);">${fmtInt(tot_budget_vente - tot_budget_achat)} €</span></div>
+        <div class="summary-item"><span class="summary-item-label">Budget total achat</span><span class="summary-item-value" style="color:var(--accent);">${fmtInt(tot_budget_achat)} €</span></div>
+        <div class="summary-item"><span class="summary-item-label">Budget total vente</span><span class="summary-item-value" style="color:var(--accent2);">${fmtInt(tot_budget_vente)} €</span></div>
+        <div class="summary-item"><span class="summary-item-label">Impressions totales</span><span class="summary-item-value">${fmtInt(tot_impressions)}</span></div>
+        <div class="summary-item"><span class="summary-item-label">Marge %</span><span class="summary-item-value" style="color:var(--warn);">${Math.round(marge*100)}%</span></div>
+      </div>` : ''}
+    </div>`;
+  });
+
+  // ── RÉCAP PAR PAYS ──────────────────────────────────────────────────────────
+  if (selectedPays.size > 0) {
+    // Accumulate per country across all levers
+    const paysSummary = {};
+    [...selectedPays].forEach(paysName => {
+      const p = PAYS_MAP[paysName];
+      const clics_pays = clicsFR * p.cv;
+      paysSummary[paysName] = {
+        p, clics_pays,
+        budget_achat: 0, budget_vente: 0,
+        impressions: 0, visites: 0,
+        cpc_display: null, cpc_native: null,
+        cpc_display_pdv: null, cpc_native_pdv: null,
+      };
+    });
+
+    [...selectedLeviers].forEach(levier => {
+      const bm = BENCHMARKS[levier];
+      const [, cpc_base] = GRILLE[secteur][levier];
+      const cn       = COEFF_NOT[notoriete][levier];
+      const cp_coeff = COEFF_POS[positionnement][posKey(levier)];
+      const cpc_net_fr = cpc_base * cn * cp_coeff;
+
+      [...selectedPays].forEach(paysName => {
+        const p   = PAYS_MAP[paysName];
+        const s   = paysSummary[paysName];
+        const cpc_net = cpc_net_fr * p.cp;
+        const cpc_pdv = cpc_net / div;
+        const clics_pays = s.clics_pays;
+        const visites    = clics_pays * bm.cvr;
+        const budget_a   = clics_pays * cpc_net;
+        const budget_v   = clics_pays * cpc_pdv;
+        const impressions = clics_pays > 0 ? clics_pays / bm.ctr : 0;
+
+        s.budget_achat += budget_a;
+        s.budget_vente += budget_v;
+        s.impressions  += impressions;
+        s.visites      += visites;
+
+        if (levier === 'Display') { s.cpc_display = cpc_net; s.cpc_display_pdv = cpc_pdv; }
+        if (levier === 'Native')  { s.cpc_native  = cpc_net; s.cpc_native_pdv  = cpc_pdv;  }
+      });
+    });
+
+    // Compute grand totals
+    let grand_budget_a = 0, grand_budget_v = 0, grand_impressions = 0, grand_visites = 0, grand_clics = 0;
+    Object.values(paysSummary).forEach(s => {
+      grand_budget_a    += s.budget_achat;
+      grand_budget_v    += s.budget_vente;
+      grand_impressions += s.impressions;
+      grand_visites     += s.visites;
+      grand_clics       += s.clics_pays;
+    });
+    const grand_cpv = grand_visites > 0 ? grand_budget_v / grand_visites : 0;
+
+    // CPC Display+Native columns visibility
+    const hasDN = selectedLeviers.has('Display') || selectedLeviers.has('Native');
+    const hasD  = selectedLeviers.has('Display');
+    const hasN  = selectedLeviers.has('Native');
+
+    // Text cards per country
+    const recapCards = [...selectedPays].map(paysName => {
+      const s   = paysSummary[paysName];
+      const cpv = s.visites > 0 ? s.budget_vente / s.visites : 0;
+      const vals_a = [s.cpc_display, s.cpc_native].filter(v => v !== null);
+      const vals_v = [s.cpc_display_pdv, s.cpc_native_pdv].filter(v => v !== null);
+      const avgAchat = vals_a.length ? vals_a.reduce((a,b)=>a+b,0)/vals_a.length : null;
+      const avgVente = vals_v.length ? vals_v.reduce((a,b)=>a+b,0)/vals_v.length : null;
+      const pctStr = s.p.cp >= 1 ? `+${Math.round((s.p.cp-1)*100)}% vs FR` : `${Math.round((s.p.cp-1)*100)}% vs FR`;
+      const volStr = `×${s.p.cv.toFixed(2)} vol`;
+
+      const cpcLines = [];
+      if (hasD && s.cpc_display != null)
+        cpcLines.push(`Display <span class="rt-buy">${fmt(s.cpc_display)} €</span> → <span class="rt-sell">${fmt(s.cpc_display_pdv)} €</span>`);
+      if (hasN && s.cpc_native != null)
+        cpcLines.push(`Native <span class="rt-buy">${fmt(s.cpc_native)} €</span> → <span class="rt-sell">${fmt(s.cpc_native_pdv)} €</span>`);
+      if (hasDN && avgAchat)
+        cpcLines.push(`<strong>Moy. D+N <span class="rt-buy">${fmt(avgAchat)} €</span> → <span class="rt-sell">${fmt(avgVente)} €</span></strong>`);
+
+      return `<div class="recap-card">
+        <div class="recap-card-head">
+          <span class="recap-country">${paysName}</span>
+          <span class="recap-zone">${s.p.zone}</span>
+          <span class="recap-coeff ${s.p.cp>=1?'coeff-up':'coeff-down'}">${pctStr}</span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">Clics</span>
+          <span class="recap-val">${fmtInt(s.clics_pays)} <span class="recap-dim">${volStr}</span></span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">CPC achat → vente</span>
+          <span class="recap-val">${cpcLines.join(' &nbsp;·&nbsp; ')}</span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">Budget</span>
+          <span class="recap-val"><span class="rt-buy">${fmtInt(s.budget_achat)} €</span> achat → <span class="rt-sell">${fmtInt(s.budget_vente)} €</span> vente</span>
+        </div>
+        <div class="recap-line">
+          <span class="recap-key">Volume</span>
+          <span class="recap-val">${fmtInt(s.impressions)} impr. &nbsp;·&nbsp; ${fmtInt(s.visites)} visites &nbsp;·&nbsp; CPV <span class="rt-cpv">${fmt(cpv)} €</span></span>
+        </div>
+      </div>`;
+    }).join('');
+
+    html += `
+    <div class="levier-block" style="border-color:rgba(192,132,252,0.3);">
+      <div class="levier-block-header" style="background:rgba(192,132,252,0.07);border-bottom-color:rgba(192,132,252,0.2);">
+        <div class="levier-block-title">
+          <div class="levier-dot" style="background:#c084fc;"></div>
+          <span class="levier-name">Récap par pays</span>
+          <span class="levier-meta">— ${selectedLeviers.size} levier${selectedLeviers.size>1?'s':''} · ${selectedPays.size} pay${selectedPays.size>1?'s':''}</span>
+        </div>
+        <div class="levier-benchmarks">
+          <span class="bench-pill">Achat total <strong>${fmtInt(grand_budget_a)} €</strong></span>
+          <span class="bench-pill">Vente total <strong>${fmtInt(grand_budget_v)} €</strong></span>
+          <span class="bench-pill">Marge brute <strong style="color:var(--accent2)">${fmtInt(grand_budget_v-grand_budget_a)} €</strong></span>
+          <span class="bench-pill">CPV moy. <strong style="color:#c084fc;">${fmt(grand_cpv)} €</strong></span>
+        </div>
+      </div>
+      <div class="recap-grid">${recapCards}</div>
+      <div class="recap-total">
+        <span class="recap-total-item">Total clics <strong>${fmtInt(grand_clics)}</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Impressions <strong>${fmtInt(grand_impressions)}</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Visites <strong>${fmtInt(grand_visites)}</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Budget achat <strong style="color:var(--accent)">${fmtInt(grand_budget_a)} €</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Budget vente <strong style="color:var(--accent2)">${fmtInt(grand_budget_v)} €</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">Marge brute <strong style="color:var(--accent2)">${fmtInt(grand_budget_v-grand_budget_a)} €</strong></span>
+        <span class="recap-sep">·</span>
+        <span class="recap-total-item">CPV moyen <strong style="color:#c084fc;">${fmt(grand_cpv)} €</strong></span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:4px;">
+      <button class="save-btn" onclick="saveBrief()">💾 Sauvegarder ce brief</button>
+    </div>`;
+  }
+
+  document.getElementById('results').innerHTML = html;
+}
+
+// ──────────────────────────── EVENTS ──────────────────────────────────────────
+initSecteur();
+buildCountryDropdown();
+
+// Lever pills
+document.getElementById('lever-pills').addEventListener('click', e => {
+  const pill = e.target.closest('.lever-pill');
+  if (!pill) return;
+  const lev = pill.dataset.levier;
+  if (selectedLeviers.has(lev)) {
+    if (selectedLeviers.size === 1) return; // keep at least 1
+    selectedLeviers.delete(lev);
+    pill.classList.remove('active');
+  } else {
+    selectedLeviers.add(lev);
+    pill.classList.add('active');
+  }
+  calculate();
+});
+
+// Country search
+const csInput = document.getElementById('country-search');
+const csDrop  = document.getElementById('country-dropdown');
+csInput.addEventListener('focus',  () => { csDrop.classList.add('open'); buildCountryDropdown(csInput.value); });
+csInput.addEventListener('input',  () => { buildCountryDropdown(csInput.value); });
+document.addEventListener('click', e => {
+  if (!e.target.closest('.country-search-wrap') && !e.target.closest('.country-dropdown')) {
+    csDrop.classList.remove('open');
+  }
+});
+
+// Other inputs
+['secteur','notoriete','positionnement'].forEach(id =>
+  document.getElementById(id).addEventListener('change', calculate)
+);
+['marge','clics'].forEach(id =>
+  document.getElementById(id).addEventListener('input', calculate)
+);
+
+// ──────────────────────────── BRIEFS ──────────────────────────────────────────
+const STORAGE_KEY = 'dv_pricing_briefs';
+
+function loadBriefs() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+function storeBriefs(briefs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(briefs));
+}
+
+function renderBriefs() {
+  const briefs = loadBriefs();
+  const panel  = document.getElementById('briefs-panel');
+  const list   = document.getElementById('briefs-list');
+  const count  = document.getElementById('briefs-count');
+  count.textContent = briefs.length;
+  panel.style.display = briefs.length > 0 ? 'block' : 'none';
+  if (briefs.length === 0) { list.innerHTML = ''; return; }
+
+  list.innerHTML = briefs.map((b, i) => `
+    <div class="brief-item">
+      <div class="brief-item-info" onclick="loadBrief(${i})">
+        <div class="brief-item-name">${b.name}</div>
+        <div class="brief-item-meta">${b.secteur} · ${b.leviers} · ${b.pays}</div>
+      </div>
+      <span class="brief-item-date">${b.date}</span>
+      <span class="brief-load-btn" onclick="loadBrief(${i})">Charger</span>
+      <span class="brief-item-del" onclick="deleteBrief(${i},event)" title="Supprimer">×</span>
+    </div>`).join('');
+}
+
+function toggleBriefs() {
+  const list = document.getElementById('briefs-list');
+  const tog  = document.getElementById('briefs-toggle');
+  const open = list.classList.toggle('open');
+  tog.textContent = open ? '▲' : '▼';
+}
+
+function saveBrief() {
+  const secteur = document.getElementById('secteur').value;
+  if (!secteur) return;
+
+  // Show modal
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  const defaultName = `${secteur} · ${[...selectedPays].join(', ')}`;
+  modal.innerHTML = `
+    <div class="modal">
+      <h3>💾 Sauvegarder ce brief</h3>
+      <input type="text" id="brief-name-input" value="${defaultName}" placeholder="Nom du brief…">
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="this.closest('.modal-overlay').remove()">Annuler</button>
+        <button class="modal-save" onclick="confirmSave()">Sauvegarder</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  setTimeout(() => { const inp = document.getElementById('brief-name-input'); inp.focus(); inp.select(); }, 50);
+  modal.addEventListener('keydown', e => { if (e.key === 'Enter') confirmSave(); if (e.key === 'Escape') modal.remove(); });
+}
+
+function confirmSave() {
+  const nameInput = document.getElementById('brief-name-input');
+  if (!nameInput) return;
+  const name = nameInput.value.trim() || 'Brief sans nom';
+  document.querySelector('.modal-overlay')?.remove();
+
+  const briefs = loadBriefs();
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'2-digit', hour:'2-digit', minute:'2-digit' });
+
+  briefs.unshift({
+    name,
+    date: dateStr,
+    secteur: document.getElementById('secteur').value,
+    notoriete: document.getElementById('notoriete').value,
+    positionnement: document.getElementById('positionnement').value,
+    leviers: [...selectedLeviers].join(', '),
+    pays: [...selectedPays].join(', '),
+    clics: document.getElementById('clics').value,
+    marge: document.getElementById('marge').value,
+    leviersArr: [...selectedLeviers],
+    paysArr:    [...selectedPays],
+  });
+  storeBriefs(briefs);
+  renderBriefs();
+
+  // Auto-open the panel
+  const list = document.getElementById('briefs-list');
+  if (!list.classList.contains('open')) toggleBriefs();
+}
+
+function loadBrief(i) {
+  const b = loadBriefs()[i];
+  if (!b) return;
+  document.getElementById('secteur').value        = b.secteur;
+  document.getElementById('notoriete').value      = b.notoriete;
+  document.getElementById('positionnement').value = b.positionnement;
+  document.getElementById('clics').value          = b.clics;
+  document.getElementById('marge').value          = b.marge;
+
+  selectedLeviers = new Set(b.leviersArr || []);
+  document.querySelectorAll('.lever-pill').forEach(p => {
+    p.classList.toggle('active', selectedLeviers.has(p.dataset.levier));
+  });
+
+  selectedPays = new Set(b.paysArr || []);
+  renderSelectedCountries();
+  buildCountryDropdown();
+  calculate();
+}
+
+function deleteBrief(i, e) {
+  e.stopPropagation();
+  const briefs = loadBriefs();
+  briefs.splice(i, 1);
+  storeBriefs(briefs);
+  renderBriefs();
+}
+
+renderBriefs();
+</script>
+
+
+</body></html>
