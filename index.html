@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<!-- saved from url=(0238)file:///Users/lucasbedrossian/Library/Application%20Support/Claude/local-agent-mode-sessions/61bcc0ee-a409-4f9e-8b67-a15d6a44bb99/9edb841e-8d9f-4243-9068-810fa2742215/local_cb2a1359-3158-426e-9dcf-634e02df2071/outputs/pricing_chatbot.html -->
-<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pricing Simulator — DataVenture</title>
+<title>Pricing Simulator — Dataventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0f14;
-    --surface: #161a22;
-    --surface2: #1e2330;
-    --surface3: #252b3a;
-    --border: #2a2f3e;
-    --accent: #4f8ef7;
-    --accent2: #38d9a9;
-    --warn: #f7b84f;
-    --muted: #6b7280;
-    --text: #e8eaf0;
-    --text2: #a0a8b8;
+    --bg: #09090f;
+    --surface: #100f1a;
+    --surface2: #181626;
+    --surface3: #201e30;
+    --border: #2a2640;
+    --accent: #7C3AED;
+    --accent-light: #9F67F5;
+    --accent2: #F2C94C;
+    --warn: #F97316;
+    --muted: #6b7080;
+    --text: #f0eef8;
+    --text2: #9b96b8;
     --radius: 12px;
     --radius-sm: 8px;
   }
@@ -24,7 +27,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     font-size: 14px;
     min-height: 100vh;
     padding: 24px;
@@ -43,19 +46,13 @@
     margin-right: auto;
   }
   .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-icon {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--accent), #7c5cf7);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 800; color: white;
-  }
+  .logo-icon { display: none; }
   .logo-text h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
   .logo-text p { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .badge {
-    background: rgba(79,142,247,0.1);
-    color: var(--accent);
-    border: 1px solid rgba(79,142,247,0.2);
+    background: rgba(124,58,237,0.12);
+    color: var(--accent-light);
+    border: 1px solid rgba(124,58,237,0.25);
     border-radius: 20px;
     padding: 4px 12px;
     font-size: 11px;
@@ -131,9 +128,9 @@
   }
   .lever-pill:hover { border-color: var(--accent); color: var(--text); }
   .lever-pill.active {
-    background: rgba(79,142,247,0.15);
-    border-color: var(--accent);
-    color: var(--accent);
+    background: rgba(124,58,237,0.18);
+    border-color: var(--accent-light);
+    color: var(--accent-light);
   }
 
   /* COUNTRY MULTI-SELECT */
@@ -307,11 +304,36 @@
   .recap-total-item { white-space: nowrap; }
   .recap-sep { color: var(--border); }
 
+  /* RECAP COLLAPSIBLE */
+  .recap-collapse { display: none; }
+  .recap-collapse.open { display: block; }
+  .recap-pre {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 2;
+    color: var(--text);
+    white-space: pre;
+    margin-bottom: 12px;
+    user-select: all;
+  }
+  .copy-btn {
+    background: rgba(56,217,169,0.08);
+    border: 1px solid rgba(56,217,169,0.2);
+    color: var(--accent2);
+    border-radius: var(--radius-sm);
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .copy-btn:hover { background: rgba(56,217,169,0.15); }
+
   /* SAVE BUTTON */
   .save-btn {
-    background: rgba(192,132,252,0.1);
-    border: 1px solid rgba(192,132,252,0.3);
-    color: #c084fc;
+    background: rgba(242,201,76,0.1);
+    border: 1px solid rgba(242,201,76,0.3);
+    color: var(--accent2);
     border-radius: var(--radius-sm);
     padding: 8px 16px;
     font-size: 12px;
@@ -319,7 +341,7 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-  .save-btn:hover { background: rgba(192,132,252,0.2); }
+  .save-btn:hover { background: rgba(242,201,76,0.18); }
 
   /* SAVED BRIEFS PANEL */
   .briefs-panel {
@@ -404,7 +426,7 @@
   .levier-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--accent-light);
   }
   .levier-name { font-size: 14px; font-weight: 700; }
   .levier-meta { font-size: 12px; color: var(--muted); margin-left: 4px; }
@@ -507,7 +529,8 @@
 
 <header>
   <div class="logo">
-    <div class="logo-icon">D</div>
+    <img src="https://cdn.prod.website-files.com/68b59c8314db2b04f023fa20/6928de3b201c4b37ca242a8f_White.svg" alt="Dataventure" style="height:28px;">
+    <div style="width:1px;height:28px;background:var(--border);margin:0 4px;"></div>
     <div class="logo-text">
       <h1>Pricing Simulator</h1>
       <p>Display · Social · Native — Grille 2025</p>
@@ -525,17 +548,22 @@
       <div class="section-label">Paramètres campagne</div>
 
       <div class="field">
+        <label>Nom du brief</label>
+        <input type="text" id="brief-name" placeholder="Ex : BMW GCC Q3 2025…" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);padding:9px 12px;font-size:14px;outline:none;width:100%;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+
+      <div class="field">
         <label>Secteur</label>
         <select id="secteur">
           <option value="">— Sélectionner —</option>
-        <option value="Alimentation / FMCG">Alimentation / FMCG</option><option value="Assurance">Assurance</option><option value="Automobile">Automobile</option><option value="Banque / Finance">Banque / Finance</option><option value="Beauté / Cosmétique">Beauté / Cosmétique</option><option value="Betting / Casino / Jeux">Betting / Casino / Jeux</option><option value="Formation / E-learning">Formation / E-learning</option><option value="Gaming / Loisirs">Gaming / Loisirs</option><option value="High-Tech / Électronique">High-Tech / Électronique</option><option value="Immobilier">Immobilier</option><option value="Luxe / Mode premium">Luxe / Mode premium</option><option value="Retail / E-commerce">Retail / E-commerce</option><option value="Santé / Pharma">Santé / Pharma</option><option value="Telecom">Telecom</option><option value="Travel / Tourisme">Travel / Tourisme</option><option value="Énergie / Utilities">Énergie / Utilities</option></select>
+        </select>
       </div>
 
       <div class="field">
         <label>Notoriété marque</label>
         <select id="notoriete">
           <option value="Forte">Forte</option>
-          <option value="Moyenne" selected="">Moyenne</option>
+          <option value="Moyenne" selected>Moyenne</option>
           <option value="Faible">Faible</option>
         </select>
       </div>
@@ -545,7 +573,7 @@
         <select id="positionnement">
           <option value="Luxe">Luxe</option>
           <option value="Premium">Premium</option>
-          <option value="Générique" selected="">Générique (Base)</option>
+          <option value="Générique" selected>Générique (Base)</option>
           <option value="Low Cost">Low Cost</option>
         </select>
       </div>
@@ -555,9 +583,9 @@
       <div class="section-label">Leviers</div>
       <div class="lever-pills" id="lever-pills">
         <div class="lever-pill active" data-levier="Display">Display</div>
-        <div class="lever-pill" data-levier="Meta">Meta</div>
+        <div class="lever-pill active" data-levier="Meta">Meta</div>
         <div class="lever-pill" data-levier="TikTok">TikTok</div>
-        <div class="lever-pill" data-levier="Native">Native</div>
+        <div class="lever-pill active" data-levier="Native">Native</div>
       </div>
     </div>
 
@@ -567,17 +595,16 @@
         <span class="country-search-icon">🔍</span>
         <input type="text" class="country-search" id="country-search" placeholder="Rechercher un pays…">
       </div>
-      <div class="country-dropdown" id="country-dropdown"><div class="country-group-label">Europe</div><div class="country-option selected">
-        <span class="country-check">✓</span>
-        <span>Spain</span>
-        <span style="margin-left:auto;font-size:10px;color:var(--muted);">×0.85</span></div></div>
+      <div class="country-dropdown" id="country-dropdown"></div>
       <div style="margin-top:10px;">
-        <div class="selected-countries" id="selected-countries"><div class="country-tag">Spain<span class="country-tag-remove" title="Retirer">×</span></div></div>
+        <div class="selected-countries" id="selected-countries">
+          <span class="no-countries">Aucun pays sélectionné</span>
+        </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="section-label">Volume &amp; Marge</div>
+      <div class="section-label">Volume & Marge</div>
       <div class="inline-field">
         <div>
           <label>Clics — base France</label>
@@ -613,134 +640,22 @@
     <div class="briefs-list" id="briefs-list"></div>
   </div>
 
-  <div id="results"><div class="fr-ref-card">
-    <div class="fr-ref-header">
-      <span class="fr-ref-flag">🇫🇷</span>
-      <span class="fr-ref-title">Base France — référence de calcul</span>
-      <span class="fr-ref-sub">Alimentation / FMCG · Notoriété Faible · Premium · Marge 30%</span>
+  <div id="results">
+    <div class="card results-empty">
+      <div class="results-empty-icon">⚡</div>
+      <p style="font-size:13px;line-height:1.7;color:var(--text2);">
+        Sélectionnez un secteur,<br>au moins un levier et un pays.
+      </p>
     </div>
-    <div class="fr-ref-levier-list"><div class="fr-ref-levier">
-      <span class="fr-ref-levier-name">Display (Prog.)</span>
-      <div class="fr-ref-prices">
-        <span class="fr-ref-price buy">CPM <strong>2,88 €</strong></span>
-        <span class="fr-ref-sep">·</span>
-        <span class="fr-ref-price buy">CPC <strong>0,43 €</strong></span>
-        <span class="fr-ref-sep" style="opacity:.3">|</span>
-        <span class="fr-ref-price sell">CPM vente <strong>4,11 €</strong></span>
-        <span class="fr-ref-sep">·</span>
-        <span class="fr-ref-price sell">CPC vente <strong>0,62 €</strong></span>
-      </div>
-    </div></div>
   </div>
-    <div class="levier-block">
-      <div class="levier-block-header">
-        <div class="levier-block-title">
-          <div class="levier-dot"></div>
-          <span class="levier-name">Display (Prog.)</span>
-          <span class="levier-meta">— Alimentation / FMCG</span>
-        </div>
-        <div class="levier-benchmarks">
-          <span class="bench-pill">CPM base FR <strong>2,88 €</strong></span>
-          <span class="bench-pill">CPC base FR <strong>0,43 €</strong></span>
-          <span class="bench-pill">CTR <strong>0.70%</strong></span>
-          <span class="bench-pill">CVR <strong>50.00%</strong></span>
-        </div>
-      </div>
-      <div class="results-table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Pays</th>
-              <th class="group-buy">CPM Achat</th>
-              <th class="group-buy">CPC Achat</th>
-              <th class="group-sell">CPM Vente</th>
-              <th class="group-sell">CPC Vente</th>
-              <th>Clics</th>
-              <th class="group-proj">Impressions</th>
-              <th class="group-proj">Visites</th>
-              <th class="group-proj">Budget Achat</th>
-              <th class="group-proj">Budget Vente</th>
-              <th style="color:#c084fc;">CPV</th>
-            </tr>
-          </thead>
-          <tbody><tr>
-        <td><div class="td-country">Spain<span class="coeff-badge coeff-down">-15%</span></div><div class="td-zone">Europe</div></td>
-        <td class="td-buy">2,44<span style="font-size:10px;color:var(--muted)"> €</span></td>
-        <td class="td-buy">0,37<span style="font-size:10px;color:var(--muted)"> €</span></td>
-        <td class="td-sell">3,49<span style="font-size:10px;color:var(--muted)"> €</span></td>
-        <td class="td-sell">0,52<span style="font-size:10px;color:var(--muted)"> €</span></td>
-        <td style="color:var(--text2);">9 000<span class="coeff-badge coeff-down">×0.90</span></td>
-        <td class="td-proj">1 285 714</td>
-        <td class="td-proj">4 500</td>
-        <td class="td-proj">3 299<span style="font-size:10px;color:var(--muted)"> €</span></td>
-        <td class="td-proj">4 713<span style="font-size:10px;color:var(--muted)"> €</span></td>
-        <td class="td-cpv">1,05<span style="font-size:10px;color:var(--muted)"> €</span></td>
-      </tr></tbody>
-        </table>
-      </div>
-      
-    </div>
-    <div class="levier-block" style="border-color:rgba(192,132,252,0.3);">
-      <div class="levier-block-header" style="background:rgba(192,132,252,0.07);border-bottom-color:rgba(192,132,252,0.2);">
-        <div class="levier-block-title">
-          <div class="levier-dot" style="background:#c084fc;"></div>
-          <span class="levier-name">Récap par pays</span>
-          <span class="levier-meta">— 1 levier · 1 pay</span>
-        </div>
-        <div class="levier-benchmarks">
-          <span class="bench-pill">Achat total <strong>3 299 €</strong></span>
-          <span class="bench-pill">Vente total <strong>4 713 €</strong></span>
-          <span class="bench-pill">Marge brute <strong style="color:var(--accent2)">1 414 €</strong></span>
-          <span class="bench-pill">CPV moy. <strong style="color:#c084fc;">1,05 €</strong></span>
-        </div>
-      </div>
-      <div class="recap-grid"><div class="recap-card">
-        <div class="recap-card-head">
-          <span class="recap-country">Spain</span>
-          <span class="recap-zone">Europe</span>
-          <span class="recap-coeff coeff-down">-15% vs FR</span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">Clics</span>
-          <span class="recap-val">9 000 <span class="recap-dim">×0.90 vol</span></span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">CPC achat → vente</span>
-          <span class="recap-val">Display <span class="rt-buy">0,37 €</span> → <span class="rt-sell">0,52 €</span> &nbsp;·&nbsp; <strong>Moy. D+N <span class="rt-buy">0,37 €</span> → <span class="rt-sell">0,52 €</span></strong></span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">Budget</span>
-          <span class="recap-val"><span class="rt-buy">3 299 €</span> achat → <span class="rt-sell">4 713 €</span> vente</span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">Volume</span>
-          <span class="recap-val">1 285 714 impr. &nbsp;·&nbsp; 4 500 visites &nbsp;·&nbsp; CPV <span class="rt-cpv">1,05 €</span></span>
-        </div>
-      </div></div>
-      <div class="recap-total">
-        <span class="recap-total-item">Total clics <strong>9 000</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Impressions <strong>1 285 714</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Visites <strong>4 500</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Budget achat <strong style="color:var(--accent)">3 299 €</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Budget vente <strong style="color:var(--accent2)">4 713 €</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Marge brute <strong style="color:var(--accent2)">1 414 €</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">CPV moyen <strong style="color:#c084fc;">1,05 €</strong></span>
-      </div>
-    </div>
-    <div style="display:flex;justify-content:flex-end;margin-top:4px;">
-      <button class="save-btn" onclick="saveBrief()">💾 Sauvegarder ce brief</button>
-    </div></div>
 
   </div><!-- /results-col -->
 </div>
 
-<footer>DataVenture · Grille Tarifaire 2025 · BASE GÉNÉRIQUE — Coefficients Notoriété &amp; Positionnement à calibrer · Volume pays = Clics France × Coeff Volume</footer>
+<footer>
+  <img src="https://cdn.prod.website-files.com/68b59c8314db2b04f023fa20/6928de3b201c4b37ca242a8f_White.svg" alt="Dataventure" style="height:16px;opacity:0.35;vertical-align:middle;margin-right:10px;">
+  Grille Tarifaire 2025 · BASE GÉNÉRIQUE — Usage interne · Coefficients à calibrer sur données historiques
+</footer>
 
 </div><!-- /page -->
 
@@ -1148,85 +1063,49 @@ function calculate() {
     });
     const grand_cpv = grand_visites > 0 ? grand_budget_v / grand_visites : 0;
 
-    // CPC Display+Native columns visibility
-    const hasDN = selectedLeviers.has('Display') || selectedLeviers.has('Native');
-    const hasD  = selectedLeviers.has('Display');
-    const hasN  = selectedLeviers.has('Native');
+    // Build plain-text lines: one per country × lever
+    const LEVIER_LABELS = { Display:'Display', Meta:'Social Meta', TikTok:'Social TikTok', Native:'Native' };
+    const leviersOrdered = ['Display','Meta','TikTok','Native'].filter(l => selectedLeviers.has(l));
 
-    // Text cards per country
-    const recapCards = [...selectedPays].map(paysName => {
-      const s   = paysSummary[paysName];
-      const cpv = s.visites > 0 ? s.budget_vente / s.visites : 0;
-      const vals_a = [s.cpc_display, s.cpc_native].filter(v => v !== null);
-      const vals_v = [s.cpc_display_pdv, s.cpc_native_pdv].filter(v => v !== null);
-      const avgAchat = vals_a.length ? vals_a.reduce((a,b)=>a+b,0)/vals_a.length : null;
-      const avgVente = vals_v.length ? vals_v.reduce((a,b)=>a+b,0)/vals_v.length : null;
-      const pctStr = s.p.cp >= 1 ? `+${Math.round((s.p.cp-1)*100)}% vs FR` : `${Math.round((s.p.cp-1)*100)}% vs FR`;
-      const volStr = `×${s.p.cv.toFixed(2)} vol`;
+    // Collect per-country per-lever data
+    const cpv_by_lev = {}; // levier -> { cpc_net, cpc_pdv }
+    leviersOrdered.forEach(lev => {
+      const [, cpc_base] = GRILLE[secteur][lev];
+      const cn       = COEFF_NOT[notoriete][lev];
+      const cp_coeff = COEFF_POS[positionnement][posKey(lev)];
+      cpv_by_lev[lev] = { cpc_net_fr: cpc_base * cn * cp_coeff };
+    });
 
-      const cpcLines = [];
-      if (hasD && s.cpc_display != null)
-        cpcLines.push(`Display <span class="rt-buy">${fmt(s.cpc_display)} €</span> → <span class="rt-sell">${fmt(s.cpc_display_pdv)} €</span>`);
-      if (hasN && s.cpc_native != null)
-        cpcLines.push(`Native <span class="rt-buy">${fmt(s.cpc_native)} €</span> → <span class="rt-sell">${fmt(s.cpc_native_pdv)} €</span>`);
-      if (hasDN && avgAchat)
-        cpcLines.push(`<strong>Moy. D+N <span class="rt-buy">${fmt(avgAchat)} €</span> → <span class="rt-sell">${fmt(avgVente)} €</span></strong>`);
+    let plainLines = [];
+    [...selectedPays].forEach(paysName => {
+      const s = paysSummary[paysName];
+      leviersOrdered.forEach(lev => {
+        const cpc_net = cpv_by_lev[lev].cpc_net_fr * s.p.cp;
+        const cpc_pdv = cpc_net / div;
+        const clics   = s.clics_pays;
+        const budget_v = clics * cpc_pdv;
+        plainLines.push(`${paysName} · ${LEVIER_LABELS[lev]} · ${fmt(cpc_pdv)} € · ${fmtInt(clics)} clics · ${fmtInt(budget_v)} €`);
+      });
+    });
 
-      return `<div class="recap-card">
-        <div class="recap-card-head">
-          <span class="recap-country">${paysName}</span>
-          <span class="recap-zone">${s.p.zone}</span>
-          <span class="recap-coeff ${s.p.cp>=1?'coeff-up':'coeff-down'}">${pctStr}</span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">Clics</span>
-          <span class="recap-val">${fmtInt(s.clics_pays)} <span class="recap-dim">${volStr}</span></span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">CPC achat → vente</span>
-          <span class="recap-val">${cpcLines.join(' &nbsp;·&nbsp; ')}</span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">Budget</span>
-          <span class="recap-val"><span class="rt-buy">${fmtInt(s.budget_achat)} €</span> achat → <span class="rt-sell">${fmtInt(s.budget_vente)} €</span> vente</span>
-        </div>
-        <div class="recap-line">
-          <span class="recap-key">Volume</span>
-          <span class="recap-val">${fmtInt(s.impressions)} impr. &nbsp;·&nbsp; ${fmtInt(s.visites)} visites &nbsp;·&nbsp; CPV <span class="rt-cpv">${fmt(cpv)} €</span></span>
-        </div>
-      </div>`;
-    }).join('');
+    const plainText = plainLines.join('\n');
+    const escapedText = plainText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
     html += `
     <div class="levier-block" style="border-color:rgba(192,132,252,0.3);">
-      <div class="levier-block-header" style="background:rgba(192,132,252,0.07);border-bottom-color:rgba(192,132,252,0.2);">
+      <div class="levier-block-header" style="background:rgba(192,132,252,0.07);border-bottom-color:rgba(192,132,252,0.2);cursor:pointer;" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.recap-chevron').textContent=this.nextElementSibling.classList.contains('open')?'▲':'▼'">
         <div class="levier-block-title">
           <div class="levier-dot" style="background:#c084fc;"></div>
           <span class="levier-name">Récap par pays</span>
-          <span class="levier-meta">— ${selectedLeviers.size} levier${selectedLeviers.size>1?'s':''} · ${selectedPays.size} pay${selectedPays.size>1?'s':''}</span>
+          <span class="levier-meta">— ${selectedLeviers.size} levier${selectedLeviers.size>1?'s':''} · ${selectedPays.size} pay${selectedPays.size>1?'s':''} · vente total ${fmtInt(grand_budget_v)} €</span>
         </div>
-        <div class="levier-benchmarks">
-          <span class="bench-pill">Achat total <strong>${fmtInt(grand_budget_a)} €</strong></span>
-          <span class="bench-pill">Vente total <strong>${fmtInt(grand_budget_v)} €</strong></span>
-          <span class="bench-pill">Marge brute <strong style="color:var(--accent2)">${fmtInt(grand_budget_v-grand_budget_a)} €</strong></span>
-          <span class="bench-pill">CPV moy. <strong style="color:#c084fc;">${fmt(grand_cpv)} €</strong></span>
-        </div>
+        <span class="recap-chevron" style="color:var(--muted);font-size:12px;">▼</span>
       </div>
-      <div class="recap-grid">${recapCards}</div>
-      <div class="recap-total">
-        <span class="recap-total-item">Total clics <strong>${fmtInt(grand_clics)}</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Impressions <strong>${fmtInt(grand_impressions)}</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Visites <strong>${fmtInt(grand_visites)}</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Budget achat <strong style="color:var(--accent)">${fmtInt(grand_budget_a)} €</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Budget vente <strong style="color:var(--accent2)">${fmtInt(grand_budget_v)} €</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">Marge brute <strong style="color:var(--accent2)">${fmtInt(grand_budget_v-grand_budget_a)} €</strong></span>
-        <span class="recap-sep">·</span>
-        <span class="recap-total-item">CPV moyen <strong style="color:#c084fc;">${fmt(grand_cpv)} €</strong></span>
+      <div class="recap-collapse">
+        <div style="padding:16px 18px;">
+          <pre class="recap-pre" id="recap-pre-text">${escapedText}</pre>
+          <button class="copy-btn" onclick="copyRecap()">📋 Copier</button>
+        </div>
       </div>
     </div>
     <div style="display:flex;justify-content:flex-end;margin-top:4px;">
@@ -1276,6 +1155,16 @@ document.addEventListener('click', e => {
   document.getElementById(id).addEventListener('input', calculate)
 );
 
+function copyRecap() {
+  const el = document.getElementById('recap-pre-text');
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copié !';
+    setTimeout(() => btn.textContent = '📋 Copier', 1500);
+  });
+}
+
 // ──────────────────────────── BRIEFS ──────────────────────────────────────────
 const STORAGE_KEY = 'dv_pricing_briefs';
 
@@ -1319,29 +1208,8 @@ function saveBrief() {
   const secteur = document.getElementById('secteur').value;
   if (!secteur) return;
 
-  // Show modal
-  const modal = document.createElement('div');
-  modal.className = 'modal-overlay';
-  const defaultName = `${secteur} · ${[...selectedPays].join(', ')}`;
-  modal.innerHTML = `
-    <div class="modal">
-      <h3>💾 Sauvegarder ce brief</h3>
-      <input type="text" id="brief-name-input" value="${defaultName}" placeholder="Nom du brief…">
-      <div class="modal-btns">
-        <button class="modal-cancel" onclick="this.closest('.modal-overlay').remove()">Annuler</button>
-        <button class="modal-save" onclick="confirmSave()">Sauvegarder</button>
-      </div>
-    </div>`;
-  document.body.appendChild(modal);
-  setTimeout(() => { const inp = document.getElementById('brief-name-input'); inp.focus(); inp.select(); }, 50);
-  modal.addEventListener('keydown', e => { if (e.key === 'Enter') confirmSave(); if (e.key === 'Escape') modal.remove(); });
-}
-
-function confirmSave() {
-  const nameInput = document.getElementById('brief-name-input');
-  if (!nameInput) return;
-  const name = nameInput.value.trim() || 'Brief sans nom';
-  document.querySelector('.modal-overlay')?.remove();
+  const nameField = document.getElementById('brief-name');
+  const name = nameField.value.trim() || `${secteur} · ${[...selectedPays].join(', ')}`;
 
   const briefs = loadBriefs();
   const now = new Date();
@@ -1350,7 +1218,7 @@ function confirmSave() {
   briefs.unshift({
     name,
     date: dateStr,
-    secteur: document.getElementById('secteur').value,
+    secteur,
     notoriete: document.getElementById('notoriete').value,
     positionnement: document.getElementById('positionnement').value,
     leviers: [...selectedLeviers].join(', '),
@@ -1363,6 +1231,11 @@ function confirmSave() {
   storeBriefs(briefs);
   renderBriefs();
 
+  // Flash confirmation on button
+  const btn = document.querySelector('.save-btn');
+  btn.textContent = '✓ Sauvegardé !';
+  setTimeout(() => btn.textContent = '💾 Sauvegarder ce brief', 1500);
+
   // Auto-open the panel
   const list = document.getElementById('briefs-list');
   if (!list.classList.contains('open')) toggleBriefs();
@@ -1371,6 +1244,7 @@ function confirmSave() {
 function loadBrief(i) {
   const b = loadBriefs()[i];
   if (!b) return;
+  document.getElementById('brief-name').value     = b.name;
   document.getElementById('secteur').value        = b.secteur;
   document.getElementById('notoriete').value      = b.notoriete;
   document.getElementById('positionnement').value = b.positionnement;
@@ -1398,6 +1272,5 @@ function deleteBrief(i, e) {
 
 renderBriefs();
 </script>
-
-
-</body></html>
+</body>
+</html>
